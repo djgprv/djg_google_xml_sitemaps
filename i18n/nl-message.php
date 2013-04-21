@@ -11,7 +11,7 @@
      */
 
     return array(
-		'djg_google_xml_sitemaps' => 'djg_google_xml_sitemaps'
+		'djg_google_xml_sitemaps' => 'djg_google_xml_sitemaps',
 		'[djg] XML sitemaps' => '[djg] XML sitemaps',
 		/* documentation */
     	'Simple plugin to generate xml sitemap SEO compatible.' => 'Plugin om een SEO vriendelijke XML sitemap te genereren.',
@@ -49,5 +49,5 @@
 		'Cache' => 'Cache',
 		'Set Yes if you want to caching sitemap file.' => 'Set Yes if you want to caching sitemap file.',
 		'Clear cache (:date)' => 'lear cache (:date)',
-		'Cache was cleared.' => 'Cache was cleared.'',
+		'Cache was cleared.' => 'Cache was cleared.',
     );
