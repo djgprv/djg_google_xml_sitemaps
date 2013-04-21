@@ -25,7 +25,7 @@
 
 /**
  * The djg_google_xml_sitemaps plugin
- * @author Micha³ Uchnast <djgprv@gmail.com>,
+ * @author Michaï¿½ Uchnast <djgprv@gmail.com>,
  * @copyright kreacjawww.pl
  * @license http://www.gnu.org/licenses/gpl.html GPLv3 license
  */
@@ -101,7 +101,7 @@
 				<td><?php echo __('Default priority for pages.'); ?></td>
 			</tr>
 			<tr>
-                <td class="label"><label for="priority"><?php echo __('Cache'); ?>: </label></td>
+                <td class="label"><label for="cache"><?php echo __('Cache'); ?>: </label></td>
                 <td class="field">
 					<select id="cache" name="settings[cache]">
 						<option value="1" <?php if($settings['cache'] == "1") echo 'selected="selected"'; ?>><?php echo __('Yes'); ?></option>
@@ -113,7 +113,7 @@
 			<tr>
                 <td class="label"><label for="robots"><?php echo __('Robots.txt'); ?>: </label></td>
                 <td class="field">
-					<textarea rows="10" cols="50" name="settings[robots]"><?php echo $settings['robots']; ?></textarea>
+					<textarea id="robots" rows="10" cols="50" name="settings[robots]"><?php echo $settings['robots']; ?></textarea>
 				</td>
 				<td><?php echo __('Contents of the robots.txt file.'); ?></td>
 			</tr>
