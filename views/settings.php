@@ -86,7 +86,7 @@
 					<option value="always" <?php if($settings['changefreq'] == 'always'): echo 'selected="selected"'; endif; ?>><?php echo __('always') ; ?></option>
 					<option value="hourly" <?php if($settings['changefreq'] == 'hourly'): echo 'selected="selected"'; endif; ?>><?php echo __('hourly') ; ?></option>
 					<option value="daily" <?php if($settings['changefreq'] == 'daily'): echo 'selected="selected"'; endif; ?>><?php echo __('daily') ; ?></option>
-					<option value="weekly" <?php if($settings['changefreq'] == '"weekly'): echo 'selected="selected"'; endif; ?>><?php echo __('"weekly') ; ?></option>
+					<option value="weekly" <?php if($settings['changefreq'] == 'weekly'): echo 'selected="selected"'; endif; ?>><?php echo __('weekly') ; ?></option>
 					<option value="monthly" <?php if($settings['changefreq'] == 'monthly'): echo 'selected="selected"'; endif; ?>><?php echo __('monthly') ; ?></option>
 					<option value="yearly" <?php if($settings['changefreq'] == 'yearly'): echo 'selected="selected"'; endif; ?>><?php echo __('yearly') ; ?></option>
 					<option value="never" <?php if($settings['changefreq'] == 'never'): echo 'selected="selected"'; endif; ?>><?php echo __('never') ; ?></option>
