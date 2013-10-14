@@ -54,6 +54,7 @@ return array(
 'Contents of the robots.txt file.' => 'Contents of the robots.txt file.', 
 'Save' => 'Save', 
 'You have modified this page.  If you navigate away from this page without first saving your data, the changes will be lost.' => 'You have modified this page.  If you navigate away from this page without first saving your data, the changes will be lost.', 
-/** views\sidebar.php */ 
-'Documentation' => 'Documentation', 
+/** views\sidebar.php */
+'Clear cache (:date)' => 'Clear cache (:date)',
+'Documentation' => 'Documentation',
 );
