@@ -25,7 +25,11 @@
 
 /**
  * The djg_google_xml_sitemaps plugin
+<<<<<<< HEAD
  * @author Michał Uchnast <djgprv@gmail.com>,
+=======
+ * @author Micha� Uchnast <djgprv@gmail.com>,
+>>>>>>> f9f33414db3ce73bceb34ebebcae2c94a738fb87
  * @copyright kreacjawww.pl
  * @license http://www.gnu.org/licenses/gpl.html GPLv3 license
  */
