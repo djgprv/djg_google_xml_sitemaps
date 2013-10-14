@@ -41,7 +41,7 @@ return array(
 'always' => 'always', 
 'hourly' => 'hourly', 
 'daily' => 'daily', 
-'weekly' => '"weekly', 
+'weekly' => 'weekly', 
 'monthly' => 'monthly', 
 'yearly' => 'yearly', 
 'never' => 'never', 
