@@ -25,7 +25,7 @@
 
 /**
  * The djg_google_xml_sitemaps plugin
- * @author Micha≥ Uchnast <djgprv@gmail.com>,
+ * @author Micha≈Ç Uchnast <djgprv@gmail.com>,
  * @copyright kreacjawww.pl
  * @license http://www.gnu.org/licenses/gpl.html GPLv3 license
  */
@@ -78,12 +78,15 @@
 			<tr>
                 <td class="label"><label for="changefreq"><?php echo __('Changefreq'); ?>: </label></td>
                 <td class="field">
-					<?php $changefreq_array = array("always","hourly","daily","weekly","monthly","yearly","never"); ?>
 					<select id="changefreq" name="settings[changefreq]">
-					<?php for($i = 0; $i < sizeof($changefreq_array); ++$i): ?>				
-					<option value="<?php echo $changefreq_array[$i]; ?>" <?php if($settings['changefreq'] == $changefreq_array[$i]): echo 'selected="selected"'; endif; ?>><?php echo __($changefreq_array[$i]) ; ?></option>
-					<?php endfor; ?>
-					</select>	
+					<option value="always" <?php if($settings['changefreq'] == 'always'): echo 'selected="selected"'; endif; ?>><?php echo __('always') ; ?></option>
+					<option value="hourly" <?php if($settings['changefreq'] == 'hourly'): echo 'selected="selected"'; endif; ?>><?php echo __('hourly') ; ?></option>
+					<option value="daily" <?php if($settings['changefreq'] == 'daily'): echo 'selected="selected"'; endif; ?>><?php echo __('daily') ; ?></option>
+					<option value="weekly" <?php if($settings['changefreq'] == '"weekly'): echo 'selected="selected"'; endif; ?>><?php echo __('"weekly') ; ?></option>
+					<option value="monthly" <?php if($settings['changefreq'] == 'monthly'): echo 'selected="selected"'; endif; ?>><?php echo __('monthly') ; ?></option>
+					<option value="yearly" <?php if($settings['changefreq'] == 'yearly'): echo 'selected="selected"'; endif; ?>><?php echo __('yearly') ; ?></option>
+					<option value="never" <?php if($settings['changefreq'] == 'never'): echo 'selected="selected"'; endif; ?>><?php echo __('never') ; ?></option>
+					</select>
 				</td>
 				<td><?php echo __('Default changefreq for pages.'); ?></td>
 			</tr>
@@ -101,7 +104,7 @@
 				<td><?php echo __('Default priority for pages.'); ?></td>
 			</tr>
 			<tr>
-                <td class="label"><label for="priority"><?php echo __('Cache'); ?>: </label></td>
+                <td class="label"><label for="cache"><?php echo __('Cache'); ?>: </label></td>
                 <td class="field">
 					<select id="cache" name="settings[cache]">
 						<option value="1" <?php if($settings['cache'] == "1") echo 'selected="selected"'; ?>><?php echo __('Yes'); ?></option>
@@ -113,7 +116,7 @@
 			<tr>
                 <td class="label"><label for="robots"><?php echo __('Robots.txt'); ?>: </label></td>
                 <td class="field">
-					<textarea rows="10" cols="50" name="settings[robots]"><?php echo $settings['robots']; ?></textarea>
+					<textarea id="robots" rows="10" cols="50" name="settings[robots]"><?php echo $settings['robots']; ?></textarea>
 				</td>
 				<td><?php echo __('Contents of the robots.txt file.'); ?></td>
 			</tr>
