@@ -12,10 +12,15 @@ Read about sitemaps: href="http://en.wikipedia.org/wiki/Sitemap.xml
 1.0.5 - Changed plugin settings view to valid XHTML, some translate changes
 1.0.6 - Robots.txt
 1.0.7 - Sitemap cacheing
-1.0.8 - WolfCMS ver. 0.7.7
+1.0.8 - Wolf CMS ver. 0.7.7
+1.0.9 - Sitemap frontend function, Wolf CMS 0.8 works
 
 === TO DO ===
 Changefreq and Priority tab to set individual values for page.
+
+== HOW TO ===
+Insert below code to sitemap page content.
+&lt;?php if (Plugin::isEnabled('djg_google_xml_sitemaps')) djg_sitemap(); ?&gt;
 
 === ICONS ===
 http://www.iconfinder.com/search/?q=iconset%3Afatcow

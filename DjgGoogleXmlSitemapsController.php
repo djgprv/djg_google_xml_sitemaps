@@ -76,7 +76,7 @@ class DjgGoogleXmlSitemapsController extends PluginController {
         }
     }
     return $out;
-}
+	}
     public function sitemap_cache() {
 		$parent = Page::find('/');
 		$settings = Plugin::getAllSettings('djg_google_xml_sitemaps');
