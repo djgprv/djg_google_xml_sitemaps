@@ -72,13 +72,13 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 				$stmt->bindParam(':filename', $row, PDO::PARAM_STR);
 				$stmt->execute();
 			endforeach;
-			Flash::set('success', 'dodano');
+			Flash::set('success', __('Successfully added file(s)'));
 			redirect(get_url('plugin/djg_google_xml_sitemaps/css_files'));
 		elseif( (isset($_POST['remove_button'])&&(isset($_POST['db_css_files']))) ):
 			$sql = "DELETE FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files WHERE id IN (". implode(',',$_POST['db_css_files']).")";
 			$stmt = $PDO->prepare($sql);
 			$stmt->execute();
-			Flash::set('success', 'usunieto');
+			Flash::set('success', __('Successfully removed file(s)'));
 			redirect(get_url('plugin/djg_google_xml_sitemaps/css_files'));
 		endif;
         $this->display('djg_google_xml_sitemaps/views/css_files', array('files' => $files, 'post' => $_POST, 'db'=>$db));
@@ -163,7 +163,6 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		endif;
     }
 	public static function screen(){
-		
 		if(extension_loaded('zlib')){
 		ob_start('ob_gzhandler');
 		}

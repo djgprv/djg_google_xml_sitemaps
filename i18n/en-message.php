@@ -11,6 +11,8 @@
 return array(
 /** DjgGoogleXmlSitemapsController.php */ 
 'Cache was cleared.' => 'Cache was cleared.', 
+'Successfully added file(s)' => 'Successfully added file(s)', 
+'Successfully removed file(s)' => 'Successfully removed file(s)', 
 'The settings have been updated.' => 'The settings have been updated.', 
 /** enable.php */ 
 'djg_google_xml_sitemaps - plugin settings initialized.' => 'djg_google_xml_sitemaps - plugin settings initialized.', 
