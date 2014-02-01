@@ -36,6 +36,7 @@ if (file_exists(CMS_ROOT.DS.'sitemap.xml')):
 $date = date("d-m-Y H:i:s", filemtime(CMS_ROOT.'/sitemap.xml')); ?>
 <p class="button"><a href="<?php echo get_url('plugin/djg_google_xml_sitemaps/clear_cache'); ?>"><img src="<?php echo URL_PUBLIC; ?>wolf/plugins/djg_google_xml_sitemaps/images/32_cache.png" align="middle" alt="settings icon" /> <?php echo __('Clear cache (:date)',array(':date'=>$date)); ?></a></p>
 <?php endif; ?>
+<p class="button"><a href="<?php echo get_url('plugin/djg_google_xml_sitemaps/css_files'); ?>"><img src="<?php echo URL_PUBLIC; ?>wolf/plugins/djg_google_xml_sitemaps/images/32_css.png" align="middle" alt="settings icon" /> <?php echo __('CSS'); ?></a></p>
 <p class="button"><a href="<?php echo get_url('plugin/djg_google_xml_sitemaps/settings'); ?>"><img src="<?php echo URL_PUBLIC; ?>wolf/plugins/djg_google_xml_sitemaps/images/32_settings.png" align="middle" alt="settings icon" /> <?php echo __('Settings'); ?></a></p>
 <p class="button"><a href="<?php echo get_url('plugin/djg_google_xml_sitemaps/documentation/'); ?>"><img src="<?php echo URL_PUBLIC; ?>wolf/plugins/djg_google_xml_sitemaps/images/32_documentation.png" align="middle" alt="documentation icon" /> <?php echo __('Documentation'); ?></a></p>
 <p class="kreacjawww"><span><a href="http://kreacjawww.pl/">&copy; Michał Uchnast - http://kreacjawww.pl/</a></span></p>

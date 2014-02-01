@@ -34,6 +34,9 @@ class DjgGoogleXmlSitemapsController extends PluginController {
     public function documentation() {
         $this->display('djg_google_xml_sitemaps/views/documentation');
     }
+    function css() {
+        $this->display('djg_google_xml_sitemaps/views/css');
+    }
     function settings() {
         $this->display('djg_google_xml_sitemaps/views/settings', array('settings' => Plugin::getAllSettings('djg_google_xml_sitemaps')));
     }
@@ -41,6 +44,45 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		if(unlink(CMS_ROOT.DS.'sitemap.xml')) Flash::set('success', __('Cache was cleared.'));
 		redirect(get_url('plugin/djg_google_xml_sitemaps/settings'));
     }
+	function glob_recursive($pattern, $flags = 0) {
+	   $files = glob($pattern, $flags);
+	   foreach (glob(dirname($pattern).DS.'*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
+		  $files = array_merge($files, self::glob_recursive($dir.DS.basename($pattern), $flags));
+	   }
+	   return $files;
+	}
+    function css_files() {
+		$PDO = Record::getConnection();
+		$sql = "SELECT * FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files ORDER BY sort_order ASC, id DESC";
+		$stmt = $PDO->prepare($sql);
+		$stmt->execute();
+		$db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		
+		$db_tmp = array(); foreach($db as $row) $db_tmp[] = $row['filename']; // filename only
+		$files = array();
+		$files_tmp = self::glob_recursive(CMS_ROOT.DS."public".DS."themes".DS."*.css",0);
+		foreach($files_tmp as $file):
+			if(!in_array(str_replace(CMS_ROOT, "", $file), $db_tmp)) $files[] = str_replace(CMS_ROOT, "", $file);
+		endforeach;
+		
+		if( (isset($_POST['add_button'])&&(isset($_POST['available_css_files']))) ):
+			foreach($_POST['available_css_files'] as $row):
+				$sql = "INSERT INTO ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files (filename) VALUES (:filename)";
+				$stmt = $PDO->prepare($sql);
+				$stmt->bindParam(':filename', $row, PDO::PARAM_STR);
+				$stmt->execute();
+			endforeach;
+			Flash::set('success', 'dodano');
+			redirect(get_url('plugin/djg_google_xml_sitemaps/css_files'));
+		elseif( (isset($_POST['remove_button'])&&(isset($_POST['db_css_files']))) ):
+			$sql = "DELETE FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files WHERE id IN (". implode(',',$_POST['db_css_files']).")";
+			$stmt = $PDO->prepare($sql);
+			$stmt->execute();
+			Flash::set('success', 'usunieto');
+			redirect(get_url('plugin/djg_google_xml_sitemaps/css_files'));
+		endif;
+        $this->display('djg_google_xml_sitemaps/views/css_files', array('files' => $files, 'post' => $_POST, 'db'=>$db));
+	}
     function save() {
 		$settings = $_POST['settings'];
 
@@ -68,8 +110,8 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 				$out .= "<url>\n";
 				$out .= "<loc>".$child->url()."</loc>\n";
 				$out .= "<lastmod>".$child->date('%Y-%m-%d', 'updated')."</lastmod>\n";
-				$out .= "<changefreq>".($child->hasContent('changefreq') ? $child->content('changefreq'): $settings['changefreq'])."</changefreq>\n";
-				$out .= "<priority>".($child->hasContent('priority') ? $child->content('priority'): $settings['priority'])."</priority>\n";
+				$out .= "<changefreq>".($child->changefreq ? $child->changefreq: $settings['changefreq'])."</changefreq>\n";
+				$out .= "<priority>".($child->priority ? $child->priority: $settings['priority'])."</priority>\n";
 				$out .= "</url>\n";
 			endif;
 			$out .= self::snippet_xml_sitemap($child);
@@ -120,4 +162,48 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 			echo file_get_contents(URL_PUBLIC.'sitemap_cache');
 		endif;
     }
+	public static function screen(){
+		
+		if(extension_loaded('zlib')){
+		ob_start('ob_gzhandler');
+		}
+		$offset = 60 * 60 * 24 * 31;		
+		$PDO = Record::getConnection();
+		$sql = "SELECT * FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files ORDER BY sort_order ASC, id DESC";
+		$stmt = $PDO->prepare($sql);
+		$stmt->execute();
+		$db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		header("Content-type: text/css; charset: UTF-8");  
+		header ('Cache-Control: max-age=' . $offset . ', must-revalidate');
+		header ('Expires: ' . gmdate ("D, d M Y H:i:s", time() + $offset) . ' GMT');
+		ob_start("compress");
+		
+		function compress($buffer) {
+			$buffer = preg_replace('#/\*.*?\*/#s', '', $buffer);
+			$buffer = preg_replace('/\s*([{}|:;,])\s+/', '$1', $buffer);
+			$buffer = preg_replace('/\s\s+(.*)/', '$1', $buffer);
+			$buffer = str_replace(';}', '}', $buffer);
+			$buffer = str_replace(' {', '{', $buffer);
+			return $buffer;
+		}
+			$replace = array('#/\*.*?\*/#s', '/\s+/');
+			foreach ($db as &$value) echo preg_replace($replace, ' ', file_get_contents(CMS_ROOT.$value['filename'],true));
+			if(extension_loaded('zlib')){
+				ob_end_flush();
+			}
+	}
+	function ajax_sort_css_files()
+	{
+		$action 				= $_POST['action'];
+		$updateRecordsArray 	= $_POST['filesArray'];
+		if ($action == "updateRecordsListings"):
+			$listingCounter = 0;
+			foreach ($updateRecordsArray as $recordIDValue):
+				$sql = "UPDATE ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files SET sort_order = " . $listingCounter . " WHERE id = " . $recordIDValue;
+				Djggallery::executeSql($sql);
+				$listingCounter = $listingCounter + 1;
+			endforeach;
+			echo '<pre>';print_r($updateRecordsArray);echo '</pre>';
+		endif;
+	}  // end function
 }

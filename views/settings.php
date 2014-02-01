@@ -118,18 +118,37 @@
 				<td><?php echo __('Set Yes if you want to caching sitemap file.'); ?></td>
 			</tr>
 			<tr>
+                <td class="label"><label for="auto_clear_cache"><?php echo __('Auto clean cache after page update'); ?>: </label></td>
+                <td class="field">
+					<select id="auto_clear_cache" name="settings[auto_clear_cache]">
+						<option value="1" <?php if($settings['auto_clear_cache'] == "1") echo 'selected="selected"'; ?>><?php echo __('Yes'); ?></option>
+						<option value="0" <?php if($settings['auto_clear_cache'] == "0") echo 'selected="selected"'; ?>><?php echo __('No'); ?></option>
+					</select>
+				</td>
+				<td><?php echo __('Set Yes if you want to caching sitemap file.'); ?></td>
+			</tr>
+			<tr>
                 <td class="label"><label for="robots"><?php echo __('Robots.txt'); ?>: </label></td>
                 <td class="field">
 					<textarea id="robots" rows="10" cols="50" name="settings[robots]"><?php echo $settings['robots']; ?></textarea>
 				</td>
 				<td><?php echo __('Contents of the robots.txt file.'); ?></td>
 			</tr>
+			<tr>
+                <td class="label"><label for="css_path"><?php echo __('Virtual css path'); ?>: </label></td>
+                <td class="field">
+					<input type="text" class="textbox" name="settings[css_path]" value="<?php echo $settings['css_path']; ?>" />
+				</td>
+				<td><a href="<?php echo URL_PUBLIC.$settings['css_path']; ?>" target="_blank"><?php echo __('Show css content'); ?></a></td>
+			</tr>
         </table>
     </fieldset>
     <br/>
     <p class="buttons">
-        <input class="button" name="commit" type="submit" accesskey="s" value="<?php echo __('Save'); ?>" />
-    </p>
+        <input class="button" name="commit" type="submit" accesskey="s" value="<?php echo __('Save'); ?>" /> | 
+		<a href="<?php echo URL_PUBLIC.'sitemap.xml'; ?>" target="_blank"><?php echo __('Show sitemap.xml file'); ?></a> | 
+		<a href="<?php echo URL_PUBLIC.'robots.txt'; ?>" target="_blank"><?php echo __('Show robots.txt file'); ?></a>
+	</p> 
 </form>
 
 <script type="text/javascript">
