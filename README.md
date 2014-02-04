@@ -18,6 +18,7 @@ Read about sitemaps: href="http://en.wikipedia.org/wiki/Sitemap.xml
 		- changefreq and priority tab to set individual values for page;
 		- css optimization (for bigger websites there will be a significant improvement in the loading speed of your pages ) gZIP, minifier code on fly from many css files to one. Now you can choose the order of loading the files;
 		- djg_select_menu (select menu for mobile version);
+1.1.1 - removed some bugs (glob search css files, priority and changefreq for homepage, auto_clean)
 
 == HOW TO ===
 Insert below code to page content or layout.
