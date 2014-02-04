@@ -163,5 +163,5 @@ function djg_priority_select(&$page)
 }
 function auto_clear_cache()
 {
-	if( (Plugin::getSetting('auto_clear_cache','djg_google_xml_sitemaps')) ) DjgGoogleXmlSitemapsController::clear_cache();
+	if( (Plugin::getSetting('auto_clear_cache','djg_google_xml_sitemaps')) ) unlink(CMS_ROOT.DS.'sitemap.xml');
 }
