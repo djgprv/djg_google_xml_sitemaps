@@ -37,6 +37,7 @@ return array(
 'Files in use' => 'Files in use', 
 'No files' => 'No files', 
 'remove selected' => 'remove selected', 
+'Copy and paste bellow code to your theme' => 'Copy and paste bellow code to your theme', 
 'Show css content' => 'Show css content', 
 'You have modified this page.  If you navigate away from this page without first saving your data, the changes will be lost.' => 'You have modified this page.  If you navigate away from this page without first saving your data, the changes will be lost.', 
 'Updated file list' => 'Updated file list', 
@@ -69,6 +70,6 @@ return array(
 'Show robots.txt file' => 'Show robots.txt file', 
 /** views\sidebar.php */ 
 'CSS' => 'CSS',
-'Clear cache (:date)' => 'Usuń cache (:date)',
-'Documentation' => 'Dokumentacja',
+'Clear cache (:date)' => 'Clear cache (:date)',
+'Documentation' => 'Documentation',
 );
