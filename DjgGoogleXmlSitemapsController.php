@@ -211,7 +211,13 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 			$listingCounter = 0;
 			foreach ($updateRecordsArray as $recordIDValue):
 				$sql = "UPDATE ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files SET sort_order = " . $listingCounter . " WHERE id = " . $recordIDValue;
-				Djggallery::executeSql($sql);
+				
+				
+				$PDO = Record::getConnection();
+				$sql = "UPDATE ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files SET sort_order = " . $listingCounter . " WHERE id = " . $recordIDValue;
+				$stmt = $PDO->prepare($sql);
+				$stmt->execute();
+				//$db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				$listingCounter = $listingCounter + 1;
 			endforeach;
 			echo '<pre>';print_r($updateRecordsArray);echo '</pre>';

@@ -80,7 +80,7 @@
 		$("#db_css_files").sortable({ 
 			update : function () { 
 			var order = $(this).sortable("serialize") + '&action=updateRecordsListings';
-				$.post("<?php echo URL_PUBLIC.'djg_google_xml_sitemaps/sort_css_files.php';?>", order, function(theResponse){
+				$.post("<?php echo rtrim(URL_PUBLIC,'/').(USE_MOD_REWRITE ? '/': '/?/'); ?>djg_google_xml_sitemaps/sort_css_files.php", order, function(theResponse){
 					$("#ajax_debug").html("<?php echo __('Updated file list'); ?>"+theResponse);
 				});
 			} 

@@ -40,8 +40,8 @@ Dispatcher::addRoute(array(
 		'/sitemap_cache' => '/plugin/djg_google_xml_sitemaps/sitemap_cache',
 		'/robots.txt' => '/plugin/djg_google_xml_sitemaps/robots',
 		'/sitemap.xml' => '/plugin/djg_google_xml_sitemaps/sitemap',
-		'/'.Plugin::getSetting('css_path','djg_google_xml_sitemaps') => '/plugin/djg_google_xml_sitemaps/screen',
-		'/djg_google_xml_sitemaps/sort_css_files.php' => '/plugin/djg_google_xml_sitemaps/ajax_sort_css_files' //ajax
+		'/djg_google_xml_sitemaps/sort_css_files.php' => '/plugin/djg_google_xml_sitemaps/ajax_sort_css_files',
+		'/'.Plugin::getSetting('css_path','djg_google_xml_sitemaps') => '/plugin/djg_google_xml_sitemaps/screen'
 ));
 
 Observer::observe('view_page_edit_plugins', 'djg_changefreq_select');
