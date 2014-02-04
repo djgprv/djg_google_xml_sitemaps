@@ -44,12 +44,23 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		if(unlink(CMS_ROOT.DS.'sitemap.xml')) Flash::set('success', __('Cache was cleared.'));
 		redirect(get_url('plugin/djg_google_xml_sitemaps/settings'));
     }
-	function glob_recursive($pattern, $flags = 0) {
-	   $files = glob($pattern, $flags);
-	   foreach (glob(dirname($pattern).DS.'*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir) {
-		  $files = array_merge($files, self::glob_recursive($dir.DS.basename($pattern), $flags));
-	   }
-	   return $files;
+	function findFiles($directory, $extensions = array()) {
+		function glob_recursive($directory, &$directories = array()) {
+			foreach(glob($directory, GLOB_ONLYDIR | GLOB_NOSORT) as $folder) {
+				$directories[] = $folder;
+				glob_recursive("{$folder}/*", $directories);
+			}
+		}
+		glob_recursive($directory, $directories);
+		$files = array ();
+		foreach($directories as $directory) {
+			foreach($extensions as $extension) {
+				foreach(glob("{$directory}/*.{$extension}") as $file) {
+					$files[$extension][] = $file;
+				}
+			}
+		}
+		return $files[$extension];
 	}
     function css_files() {
 		$PDO = Record::getConnection();
@@ -60,7 +71,8 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		
 		$db_tmp = array(); foreach($db as $row) $db_tmp[] = $row['filename']; // filename only
 		$files = array();
-		$files_tmp = self::glob_recursive(CMS_ROOT.DS."public".DS."themes".DS."*.css",0);
+		//$files_tmp = self::glob_recursive(CMS_ROOT.DS."public".DS."themes".DS."{*.css}",0);		
+		$files_tmp = self::findFiles(CMS_ROOT.DS."public".DS."themes", array ("css"));
 		foreach($files_tmp as $file):
 			if(!in_array(str_replace(CMS_ROOT, "", $file), $db_tmp)) $files[] = str_replace(CMS_ROOT, "", $file);
 		endforeach;
@@ -130,8 +142,8 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 			echo "<url>\n";
 			echo "<loc>".$parent->url()."</loc>\n";
 			echo "<lastmod>".$parent->date('%Y-%m-%d', 'updated')."</lastmod>\n";
-			echo "<changefreq>".($parent->hasContent('changefreq') ? $parent->content('changefreq'): $settings['changefreq'])."</changefreq>\n";
-			echo "<priority>".($parent->hasContent('priority') ? $parent->content('priority'): $settings['priority'])."</priority>\n";
+			echo "<changefreq>".($parent->changefreq ? $parent->changefreq: $settings['changefreq'])."</changefreq>\n";
+			echo "<priority>".($parent->priority ? $parent->priority: $settings['priority'])."</priority>\n";
 			echo "</url>\n";
 		endif;
 		echo self::snippet_xml_sitemap($parent);
@@ -144,17 +156,17 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		echo Plugin::getSetting('robots','djg_google_xml_sitemaps');
     }
     public function sitemap() {
-		switch (Plugin::getSetting('header','djg_google_xml_sitemaps')):
-			case "xml" :
-			header('Content-Type: application/xml; charset=utf-8');
-			break;
-			case "txt" :
-			header('Content-type: text/html; charset=utf-8');
-			break;
-		endswitch;
 		/* cache */
-		$file = CMS_ROOT.DS.'sitemap.xml';
+		$file = CMS_ROOT.DS.'sitemap.'.Plugin::getSetting('header','djg_google_xml_sitemaps');
 		if ( (!file_exists($file)) && (Plugin::getSetting('cache','djg_google_xml_sitemaps')=='1') ):
+			switch (Plugin::getSetting('header','djg_google_xml_sitemaps')):
+				case "xml" :
+				header('Content-Type: application/xml; charset=utf-8');
+				break;
+				case "txt" :
+				header('Content-type: text/html; charset=utf-8');
+				break;
+			endswitch;	
 			$content = file_get_contents(URL_PUBLIC.'sitemap_cache');
 			file_put_contents($file, $content, FILE_APPEND | LOCK_EX);
 			echo $content;

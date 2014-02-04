@@ -25,17 +25,11 @@
 
 /**
  * The djg_google_xml_sitemaps plugin
-<<<<<<< HEAD
  * @author Michał Uchnast <djgprv@gmail.com>,
-=======
- * @author Micha� Uchnast <djgprv@gmail.com>,
->>>>>>> f9f33414db3ce73bceb34ebebcae2c94a738fb87
  * @copyright kreacjawww.pl
  * @license http://www.gnu.org/licenses/gpl.html GPLv3 license
  */
-
-
-
+//echo '<pre>'; print_r($files);  echo '</pre>';
 ?>
 <div id="djg_google_xml_sitemaps">
 <h1><?php echo __('CSS files'); ?></h1>
@@ -62,7 +56,7 @@
 		?>
         <input class="button remove_button" name="remove_button" type="submit" accesskey="s" value="<?php echo __('remove selected'); ?>" />
     </fieldset>
-	<p>Copy and paset bellow code to your theme</p>
+	<p><?php echo __('Copy and paste bellow code to your theme') ?></p>
 	<p>&lt;link rel="stylesheet" href="&lt;?php echo URL_PUBLIC; ?&gt;<?php echo Plugin::getSetting('css_path','djg_google_xml_sitemaps'); ?>" media="screen" type="text/css" /&gt;</p>
 	<a href="<?php echo URL_PUBLIC.plugin::getSetting('css_path','djg_google_xml_sitemaps'); ?>" target="_blank"><?php echo __('Show css content'); ?></a>
 </form>

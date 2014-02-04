@@ -25,7 +25,7 @@ Plugin::setInfos(array(
     'id'          => 'djg_google_xml_sitemaps',
     'title'       => __('[djg] XML sitemaps'),
     'description' => __('Simple plugin to generate xml sitemap SEO compatible.'),
-    'version'     => '1.1.0',
+    'version'     => '1.1.1',
    	'license'     => 'GPL',
 	'author'      => 'Michał Uchnast',
     'website'     => 'http://www.kreacjawww.pl/',
@@ -48,7 +48,7 @@ Observer::observe('view_page_edit_plugins', 'djg_changefreq_select');
 Observer::observe('view_page_edit_plugins', 'djg_priority_select');
 Observer::observe('page_edit_after_save', 'auto_clear_cache');
 Observer::observe('page_add_after_save', 'auto_clear_cache');
-Observer::observe('page_remove_after_save', 'auto_clear_cache');
+Observer::observe('page_delete', 'auto_clear_cache');
 /*Observer::observe('page_edit_before_save', 'auto_changefreq');
 
 
@@ -163,5 +163,5 @@ function djg_priority_select(&$page)
 }
 function auto_clear_cache()
 {
-	if( (Plugin::getSetting('auto_changefreq','djg_google_xml_sitemaps')) && (Plugin::getSetting('auto_clear_cache','djg_google_xml_sitemaps')) ) DjgGoogleXmlSitemapsController::clear_cache();
+	if( (Plugin::getSetting('auto_clear_cache','djg_google_xml_sitemaps')) ) DjgGoogleXmlSitemapsController::clear_cache();
 }

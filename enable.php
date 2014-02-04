@@ -1,7 +1,7 @@
 <?php
 $robots = "User-agent: *\nAllow: /\nDisallow: /cgi-bin/\nDisallow: /wolf/\nUser-agent: wget\nDisallow: /\nSitemap: ".URL_PUBLIC."sitemap.xml";
 $settings = array(
-    'version' => '1.1.0',
+    'version' => '1.1.1',
 	'header' => 'xml',
 	'show_HOME_PAGE'   => '1',
     'show_STATUS_HIDDEN'   => '0',
