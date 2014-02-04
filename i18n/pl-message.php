@@ -1,6 +1,6 @@
 <?php
 /**
-* English file for plugin djg_google_xml_sitemaps
+* Polish file for plugin djg_google_xml_sitemaps
 *
 * @package wolf
 * @subpackage djg_google_xml_sitemaps
@@ -11,7 +11,7 @@
 return array(
 /** DjgGoogleXmlSitemapsController.php */ 
 'Cache was cleared.' => 'Pamięć podręczna została wyczyszczona.',
-'Successfully added file(s)' => ''Pomyślnie dodano plik(i)',
+'Successfully added file(s)' => 'Pomyślnie dodano plik(i)',
 'Successfully removed file(s)' => 'Pomyślnie usunięto plik(i)',
 'The settings have been updated.' => 'Ustawienia zostały zaktualizowane.',
 /** enable.php */ 
