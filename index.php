@@ -25,7 +25,7 @@ Plugin::setInfos(array(
     'id'          => 'djg_google_xml_sitemaps',
     'title'       => __('[djg] XML sitemaps'),
     'description' => __('Simple plugin to generate xml sitemap SEO compatible.'),
-    'version'     => '1.1.1',
+    'version'     => '1.1.2',
    	'license'     => 'GPL',
 	'author'      => 'Michał Uchnast',
     'website'     => 'http://www.kreacjawww.pl/',
@@ -98,7 +98,7 @@ function djg_sitemap_tree($parent)
 		}
 	return $out;
 }
-function djg_sitemap_menu($parent)
+function djg_sitemap_menu($parent,$current_path)
 {	
     $out = '';
 	$settings = Plugin::getAllSettings('djg_google_xml_sitemaps');
@@ -109,10 +109,11 @@ function djg_sitemap_menu($parent)
 			{
 				if ( ($child->status_id == Page::STATUS_PUBLISHED) 
 				or ( ($child->status_id == Page::STATUS_HIDDEN) && $settings['show_STATUS_HIDDEN'] == '1') 
-				or ( ($child->getLoginNeeded() == Page::LOGIN_REQUIRED) && $settings['show_LOGIN_REQUIRED'] == '1') )  :		
-					$out .= '<option value="'.$child->url().'">' . str_repeat("-", (int)$child->level()) . ' ' . $child->title().'</option>';
+				or ( ($child->getLoginNeeded() == Page::LOGIN_REQUIRED) && $settings['show_LOGIN_REQUIRED'] == '1') )  :
+					$selected = ($child->path() == $current_path) ? ' selected ' : '';
+					$out .= '<option '.$selected.' value="'.$child->url().'">' . str_repeat("-", (int)$child->level()-1) . ' ' . $child->title().'</option>';
 				endif;
-				$out .= djg_sitemap_menu($child);
+				$out .= djg_sitemap_menu($child,$current_path);
 			}
 		}
 	return $out;
@@ -125,14 +126,15 @@ function djg_sitemap() {
 	if(Plugin::getSetting('show_HOME_PAGE','djg_google_xml_sitemaps') == '1') echo '</ul>';
 	echo '</div>';
 };
-function djg_select_menu() {
+function djg_mobile_menu($page) {
 	?>
-	<select onchange="if (this.value) window.location.href=this.value" class="djg_menu">
+	<div class="djg_mobile_menu">
+	<label><select onchange="if (this.value) window.location.href=this.value">
 	<?php
 	$parent = Page::find('/');
-	if(Plugin::getSetting('show_HOME_PAGE','djg_google_xml_sitemaps') == '1') echo '<option value="'.$parent->url().'">' . str_repeat("-", (int)$parent->level()) . ' ' . $parent->title().'</option>';
-	echo djg_sitemap_menu($parent);
-	echo '</select>';
+	if(Plugin::getSetting('show_HOME_PAGE','djg_google_xml_sitemaps') == '1') echo '<option value="'.$parent->url().'">' . str_repeat("", (int)$parent->level()) . ' ' . $parent->title().'</option>';
+	echo djg_sitemap_menu($parent,$page->path());
+	echo '</select></label></div>';
 };
 
 function djg_changefreq_select(&$page)
