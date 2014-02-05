@@ -21,8 +21,10 @@ HISTORY VERSION
 > css optimization (for bigger websites there will be a significant improvement in the loading speed of your pages ) gZIP, minifier code on fly from many css files to one. Now you can choose the order of loading the files; djg_select_menu (select menu for mobile version);
 * 1.1.1 - removed some bugs (glob search css files, priority and changefreq for homepage, auto_clean)
 * 1.1.2 - changed djg_mobile_menu
+
 HOW TO
 ----
+
 ##### Insert below code to page content or layout.
 ```sh
 &lt;?php if (Plugin::isEnabled('djg_google_xml_sitemaps')) djg_sitemap(); ?&gt;
