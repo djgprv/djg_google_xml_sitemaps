@@ -141,6 +141,13 @@
 				</td>
 				<td><a href="<?php echo URL_PUBLIC.$settings['css_path']; ?>" target="_blank"><?php echo __('Show css content'); ?></a></td>
 			</tr>
+			<tr>
+                <td class="label"><label for="js_path"><?php echo __('Virtual js path'); ?>: </label></td>
+                <td class="field">
+					<input type="text" class="textbox" name="settings[js_path]" value="<?php echo $settings['js_path']; ?>" />
+				</td>
+				<td><a href="<?php echo URL_PUBLIC.$settings['js_path']; ?>" target="_blank"><?php echo __('Show js content'); ?></a></td>
+			</tr>
         </table>
     </fieldset>
     <br/>

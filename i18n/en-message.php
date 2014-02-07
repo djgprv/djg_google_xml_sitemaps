@@ -72,4 +72,9 @@ return array(
 'CSS' => 'CSS',
 'Clear cache (:date)' => 'Clear cache (:date)',
 'Documentation' => 'Documentation',
+/** ver 1.1.4 */
+'Virtual js path' => 'Virtual js path',
+'JS' => 'JS',
+'List js files from public/themes directory' => 'List js files from public/themes directory',
+'Show js content' => 'Show js content'
 );

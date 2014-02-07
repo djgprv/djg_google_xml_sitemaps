@@ -1,7 +1,7 @@
 <?php
 $robots = "User-agent: *\nAllow: /\nDisallow: /cgi-bin/\nDisallow: /wolf/\nUser-agent: wget\nDisallow: /\nSitemap: ".URL_PUBLIC."sitemap.xml";
 $settings = array(
-    'version' => '1.1.2',
+    'version' => '1.1.3',
 	'header' => 'xml',
 	'show_HOME_PAGE'   => '1',
     'show_STATUS_HIDDEN'   => '0',
@@ -12,11 +12,22 @@ $settings = array(
 	'cache'   => '0',
 	'auto_clear_cache'   => '0',
 	'robots'   => $robots,
-	'css_path'   => 'public/themes/css/screen.css'
+	'css_path'   => 'public/themes/css/screen.css',
+	'js_path'   => 'public/themes/js/script.js'
 );
 $PDO = Record::getConnection();
 $createCssTable = "
 CREATE TABLE IF NOT EXISTS `".TABLE_PREFIX."djg_google_xml_sitemaps_css_files` (
+	`id` int(10) NOT NULL AUTO_INCREMENT,
+	`sort_order` smallint(4) unsigned NOT NULL DEFAULT '0',
+	`filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `filename` (`filename`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+$stmt = $PDO->prepare($createCssTable);
+$stmt->execute();
+$createCssTable = "
+CREATE TABLE IF NOT EXISTS `".TABLE_PREFIX."djg_google_xml_sitemaps_js_files` (
 	`id` int(10) NOT NULL AUTO_INCREMENT,
 	`sort_order` smallint(4) unsigned NOT NULL DEFAULT '0',
 	`filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,

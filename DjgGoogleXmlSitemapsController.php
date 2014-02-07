@@ -27,12 +27,14 @@ class DjgGoogleXmlSitemapsController extends PluginController {
     public function __construct() {
         $this->setLayout('backend');
 		$this->assignToLayout('sidebar', new View('../../plugins/djg_google_xml_sitemaps/views/sidebar'));
+		
     }
 	public function index() {
         $this->documentation();
     }
     public function documentation() {
-        $this->display('djg_google_xml_sitemaps/views/documentation');
+		$content = Parsedown::instance()->parse(file_get_contents(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'README.md'));
+        $this->display('djg_google_xml_sitemaps/views/documentation', array('content'=>$content));
     }
     function css() {
         $this->display('djg_google_xml_sitemaps/views/css');
@@ -44,6 +46,41 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		if(unlink(CMS_ROOT.DS.'sitemap.xml')) Flash::set('success', __('Cache was cleared.'));
 		redirect(get_url('plugin/djg_google_xml_sitemaps/settings'));
     }
+	function minifyCSS($str){
+		$find = array('!/\*.*?\*/!s',
+			'/\n\s*\n/',
+			'/[\n\r \t]/',
+			'/ +/',
+			'/ ?([,:;{}]) ?/',
+			'/;}/'
+		);
+		$repl = array('',
+			"\n",
+			' ',
+			' ',
+			'$1',
+			'}'
+		);
+		return preg_replace($find, $repl, $str);
+	}
+	function minifyJS($str){
+		return preg_replace(
+			array(
+				'!/\*.*?\*/!s', 
+				"/\n\s+/", 
+				"/\n(\s*\n)+/", 
+				"!\n//.*?\n!s", 
+				"/\n\}(.+?)\n/",
+				"/;\n/"
+			), array(
+				'', 
+				"\n", 
+				"\n", 
+				"\n", 
+				"}\\1\n",
+				';'
+			), $str);
+	}
 	function findFiles($directory, $extensions = array()) {
 		function glob_recursive($directory, &$directories = array()) {
 			foreach(glob($directory, GLOB_ONLYDIR | GLOB_NOSORT) as $folder) {
@@ -70,8 +107,7 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		$db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		
 		$db_tmp = array(); foreach($db as $row) $db_tmp[] = $row['filename']; // filename only
-		$files = array();
-		//$files_tmp = self::glob_recursive(CMS_ROOT.DS."public".DS."themes".DS."{*.css}",0);		
+		$files = array();	
 		$files_tmp = self::findFiles(CMS_ROOT.DS."public".DS."themes", array ("css"));
 		foreach($files_tmp as $file):
 			if(!in_array(str_replace(CMS_ROOT, "", $file), $db_tmp)) $files[] = str_replace(CMS_ROOT, "", $file);
@@ -94,6 +130,38 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 			redirect(get_url('plugin/djg_google_xml_sitemaps/css_files'));
 		endif;
         $this->display('djg_google_xml_sitemaps/views/css_files', array('files' => $files, 'post' => $_POST, 'db'=>$db));
+	}
+    function js_files() {
+		$PDO = Record::getConnection();
+		$sql = "SELECT * FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_js_files ORDER BY sort_order ASC, id DESC";
+		$stmt = $PDO->prepare($sql);
+		$stmt->execute();
+		$db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		
+		$db_tmp = array(); foreach($db as $row) $db_tmp[] = $row['filename']; // filename only
+		$files = array();	
+		$files_tmp = self::findFiles(CMS_ROOT.DS."public".DS."themes", array ("js"));
+		foreach($files_tmp as $file):
+			if(!in_array(str_replace(CMS_ROOT, "", $file), $db_tmp)) $files[] = str_replace(CMS_ROOT, "", $file);
+		endforeach;
+		
+		if( (isset($_POST['add_button'])&&(isset($_POST['available_js_files']))) ):
+			foreach($_POST['available_js_files'] as $row):
+				$sql = "INSERT INTO ".TABLE_PREFIX."djg_google_xml_sitemaps_js_files (filename) VALUES (:filename)";
+				$stmt = $PDO->prepare($sql);
+				$stmt->bindParam(':filename', $row, PDO::PARAM_STR);
+				$stmt->execute();
+			endforeach;
+			Flash::set('success', __('Successfully added file(s)'));
+			redirect(get_url('plugin/djg_google_xml_sitemaps/js_files'));
+		elseif( (isset($_POST['remove_button'])&&(isset($_POST['db_js_files']))) ):
+			$sql = "DELETE FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_js_files WHERE id IN (". implode(',',$_POST['db_js_files']).")";
+			$stmt = $PDO->prepare($sql);
+			$stmt->execute();
+			Flash::set('success', __('Successfully removed file(s)'));
+			redirect(get_url('plugin/djg_google_xml_sitemaps/js_files'));
+		endif;
+        $this->display('djg_google_xml_sitemaps/views/js_files', array('files' => $files, 'post' => $_POST, 'db'=>$db));
 	}
     function save() {
 		$settings = $_POST['settings'];
@@ -174,35 +242,48 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 			echo file_get_contents(URL_PUBLIC.'sitemap_cache');
 		endif;
     }
-	public static function screen(){
-		if(extension_loaded('zlib')){
-		ob_start('ob_gzhandler');
-		}
+	
+	/** CSS */
+	
+	function css_file(){
 		$offset = 60 * 60 * 24 * 31;		
-		$PDO = Record::getConnection();
-		$sql = "SELECT * FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files ORDER BY sort_order ASC, id DESC";
-		$stmt = $PDO->prepare($sql);
-		$stmt->execute();
-		$db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		header("Content-type: text/css; charset: UTF-8");  
 		header ('Cache-Control: max-age=' . $offset . ', must-revalidate');
 		header ('Expires: ' . gmdate ("D, d M Y H:i:s", time() + $offset) . ' GMT');
-		ob_start("compress");
-		
-		function compress($buffer) {
-			$buffer = preg_replace('#/\*.*?\*/#s', '', $buffer);
-			$buffer = preg_replace('/\s*([{}|:;,])\s+/', '$1', $buffer);
-			$buffer = preg_replace('/\s\s+(.*)/', '$1', $buffer);
-			$buffer = str_replace(';}', '}', $buffer);
-			$buffer = str_replace(' {', '{', $buffer);
-			return $buffer;
-		}
-			$replace = array('#/\*.*?\*/#s', '/\s+/');
-			foreach ($db as &$value) echo preg_replace($replace, ' ', file_get_contents(CMS_ROOT.$value['filename'],true));
-			if(extension_loaded('zlib')){
-				ob_end_flush();
-			}
+		echo self::css_min();
 	}
+
+	public static function css_min(){
+		$PDO = Record::getConnection();
+		$sql = "SELECT filename FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files ORDER BY sort_order ASC, id DESC";
+		$stmt = $PDO->prepare($sql);
+		$stmt->execute();
+		$db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$css = null;
+		$md5 = null;
+		foreach ($db as &$value):
+			$file = CMS_ROOT.$value['filename'];
+			if (file_exists($file)) {
+				$md5 .= date (filemtime($file));
+				$css .= file_get_contents(CMS_ROOT.$value['filename'],true);
+			}
+		endforeach;
+		$name = md5($md5).'.css';
+		if(file_exists(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name))readfile(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name);
+		else{
+			
+			$css = preg_replace('#/\*.*?\*/#s', '', $css);
+			$css = preg_replace('/\s*([{}|:;,])\s+/', '$1', $css);
+			$css = preg_replace('/\s\s+(.*)/', '$1',$css);
+			$css = str_replace(';}', '}', $css);
+			$css = str_replace(' {', '{', $css);
+			$css_content = $css;			
+			foreach(glob(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.'*.css') as $file) unlink($file);
+			file_put_contents(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name,$css_content);
+			return $css_content;
+		}
+	}
+
 	function ajax_sort_css_files()
 	{
 		$action 				= $_POST['action'];
@@ -210,11 +291,61 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		if ($action == "updateRecordsListings"):
 			$listingCounter = 0;
 			foreach ($updateRecordsArray as $recordIDValue):
-				$sql = "UPDATE ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files SET sort_order = " . $listingCounter . " WHERE id = " . $recordIDValue;
-				
-				
 				$PDO = Record::getConnection();
 				$sql = "UPDATE ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files SET sort_order = " . $listingCounter . " WHERE id = " . $recordIDValue;
+				$stmt = $PDO->prepare($sql);
+				$stmt->execute();
+				//$db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				$listingCounter = $listingCounter + 1;
+			endforeach;
+			echo '<pre>';print_r($updateRecordsArray);echo '</pre>';
+		endif;
+	}  // end function
+	
+	/** JS */
+	
+	function js_file(){
+		header('Cache-Control: max-age='.(3600 * 24).', must-revalidate');
+		header('Content-type: text/javascript');
+		header('Expires: '.gmdate("D, d M Y H:i:s", time() + 3600*24*365).' GMT');
+		echo self::js_min();
+	}
+	
+	function js_min()
+	{	
+		$PDO = Record::getConnection();
+		$sql = "SELECT filename FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_js_files ORDER BY sort_order ASC, id DESC";
+		$stmt = $PDO->prepare($sql);
+		$stmt->execute();
+		$db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$js = null;
+		$md5 = null;
+		foreach ($db as &$value):
+			$file = CMS_ROOT.$value['filename'];
+			if (file_exists($file)) {
+				$md5 .= date (filemtime($file));
+				$js .= file_get_contents(CMS_ROOT.$value['filename'],true);
+			}
+		endforeach;
+		$name = md5($md5).'.js';
+		if(file_exists(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name))readfile(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name);
+		else{
+			$js_content = JSMin::minify($js);
+			foreach(glob(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.'*.js') as $file) unlink($file);
+			file_put_contents(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name,$js_content);
+			return $js_content;
+		}
+	}
+
+	function ajax_sort_js_files()
+	{
+		$action 				= $_POST['action'];
+		$updateRecordsArray 	= $_POST['filesArray'];
+		if ($action == "updateRecordsListings"):
+			$listingCounter = 0;
+			foreach ($updateRecordsArray as $recordIDValue):
+				$PDO = Record::getConnection();
+				$sql = "UPDATE ".TABLE_PREFIX."djg_google_xml_sitemaps_js_files SET sort_order = " . $listingCounter . " WHERE id = " . $recordIDValue;
 				$stmt = $PDO->prepare($sql);
 				$stmt->execute();
 				//$db = $stmt->fetchAll(PDO::FETCH_ASSOC);

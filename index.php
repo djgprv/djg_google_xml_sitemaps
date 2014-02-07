@@ -25,7 +25,7 @@ Plugin::setInfos(array(
     'id'          => 'djg_google_xml_sitemaps',
     'title'       => __('[djg] XML sitemaps'),
     'description' => __('Simple plugin to generate xml sitemap SEO compatible.'),
-    'version'     => '1.1.2',
+    'version'     => '1.1.3',
    	'license'     => 'GPL',
 	'author'      => 'Michał Uchnast',
     'website'     => 'http://www.kreacjawww.pl/',
@@ -33,6 +33,8 @@ Plugin::setInfos(array(
     'require_wolf_version' => '0.7.3',
 	'type'		=> 'both'
 ));
+//	load plugin classes into the system
+AutoLoader::addFolder(dirname(__FILE__) . '/models');
 
 Plugin::addController('djg_google_xml_sitemaps', __('[djg] XML sitemaps'), true, false);
 
@@ -41,7 +43,9 @@ Dispatcher::addRoute(array(
 		'/robots.txt' => '/plugin/djg_google_xml_sitemaps/robots',
 		'/sitemap.xml' => '/plugin/djg_google_xml_sitemaps/sitemap',
 		'/djg_google_xml_sitemaps/sort_css_files.php' => '/plugin/djg_google_xml_sitemaps/ajax_sort_css_files',
-		'/'.Plugin::getSetting('css_path','djg_google_xml_sitemaps') => '/plugin/djg_google_xml_sitemaps/screen'
+		'/djg_google_xml_sitemaps/sort_js_files.php' => '/plugin/djg_google_xml_sitemaps/ajax_sort_js_files',
+		'/'.Plugin::getSetting('css_path','djg_google_xml_sitemaps') => '/plugin/djg_google_xml_sitemaps/css_file',
+		'/'.Plugin::getSetting('js_path','djg_google_xml_sitemaps') => '/plugin/djg_google_xml_sitemaps/js_file'
 ));
 
 Observer::observe('view_page_edit_plugins', 'djg_changefreq_select');
@@ -111,7 +115,7 @@ function djg_sitemap_menu($parent,$current_path)
 				or ( ($child->status_id == Page::STATUS_HIDDEN) && $settings['show_STATUS_HIDDEN'] == '1') 
 				or ( ($child->getLoginNeeded() == Page::LOGIN_REQUIRED) && $settings['show_LOGIN_REQUIRED'] == '1') )  :
 					$selected = ($child->path() == $current_path) ? ' selected ' : '';
-					$out .= '<option '.$selected.' value="'.$child->url().'">' . str_repeat("-", (int)$child->level()-1) . ' ' . $child->title().'</option>';
+					$out .= '<option '.$selected.' value="'.$child->url().'">' . str_repeat("&bull; ", (int)$child->level()-1) . ' ' . $child->title().'</option>';
 				endif;
 				$out .= djg_sitemap_menu($child,$current_path);
 			}
@@ -166,4 +170,12 @@ function djg_priority_select(&$page)
 function auto_clear_cache()
 {
 	if( (Plugin::getSetting('auto_clear_cache','djg_google_xml_sitemaps')) ) unlink(CMS_ROOT.DS.'sitemap.xml');
+}
+
+/** css & js */
+function  djg_google_xml_sitemaps_css(){
+	return '<link rel="stylesheet" href="'.URL_PUBLIC.Plugin::getSetting('css_path','djg_google_xml_sitemaps').'" media="screen" type="text/css" />';
+}
+function  djg_google_xml_sitemaps_js(){
+	return '<script type="text/javascript" charset="UTF-8" src="'.URL_PUBLIC.Plugin::getSetting('js_path','djg_google_xml_sitemaps').'"></script>';
 }
