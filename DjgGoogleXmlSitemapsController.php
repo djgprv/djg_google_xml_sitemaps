@@ -32,73 +32,10 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 	public function index() {
         $this->documentation();
     }
-    public function documentation() {
-		$content = Parsedown::instance()->parse(file_get_contents(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'README.md'));
-        $this->display('djg_google_xml_sitemaps/views/documentation', array('content'=>$content));
-    }
-    function css() {
-        $this->display('djg_google_xml_sitemaps/views/css');
-    }
-    function settings() {
-        $this->display('djg_google_xml_sitemaps/views/settings', array('settings' => Plugin::getAllSettings('djg_google_xml_sitemaps')));
-    }
     function clear_cache() {
 		if(unlink(CMS_ROOT.DS.'sitemap.xml')) Flash::set('success', __('Cache was cleared.'));
 		redirect(get_url('plugin/djg_google_xml_sitemaps/settings'));
     }
-	function minifyCSS($str){
-		$find = array('!/\*.*?\*/!s',
-			'/\n\s*\n/',
-			'/[\n\r \t]/',
-			'/ +/',
-			'/ ?([,:;{}]) ?/',
-			'/;}/'
-		);
-		$repl = array('',
-			"\n",
-			' ',
-			' ',
-			'$1',
-			'}'
-		);
-		return preg_replace($find, $repl, $str);
-	}
-	function minifyJS($str){
-		return preg_replace(
-			array(
-				'!/\*.*?\*/!s', 
-				"/\n\s+/", 
-				"/\n(\s*\n)+/", 
-				"!\n//.*?\n!s", 
-				"/\n\}(.+?)\n/",
-				"/;\n/"
-			), array(
-				'', 
-				"\n", 
-				"\n", 
-				"\n", 
-				"}\\1\n",
-				';'
-			), $str);
-	}
-	function findFiles($directory, $extensions = array()) {
-		function glob_recursive($directory, &$directories = array()) {
-			foreach(glob($directory, GLOB_ONLYDIR | GLOB_NOSORT) as $folder) {
-				$directories[] = $folder;
-				glob_recursive("{$folder}/*", $directories);
-			}
-		}
-		glob_recursive($directory, $directories);
-		$files = array ();
-		foreach($directories as $directory) {
-			foreach($extensions as $extension) {
-				foreach(glob("{$directory}/*.{$extension}") as $file) {
-					$files[$extension][] = $file;
-				}
-			}
-		}
-		return $files[$extension];
-	}
     function css_files() {
 		$PDO = Record::getConnection();
 		$sql = "SELECT * FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files ORDER BY sort_order ASC, id DESC";
@@ -162,6 +99,32 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 			redirect(get_url('plugin/djg_google_xml_sitemaps/js_files'));
 		endif;
         $this->display('djg_google_xml_sitemaps/views/js_files', array('files' => $files, 'post' => $_POST, 'db'=>$db));
+	}
+    function settings() {
+        $this->display('djg_google_xml_sitemaps/views/settings', array('settings' => Plugin::getAllSettings('djg_google_xml_sitemaps')));
+    }
+	public function documentation() {
+		$content = Parsedown::instance()->parse(file_get_contents(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'README.md'));
+        $this->display('djg_google_xml_sitemaps/views/documentation', array('content'=>$content));
+    }
+	
+	function findFiles($directory, $extensions = array()) {
+		function glob_recursive($directory, &$directories = array()) {
+			foreach(glob($directory, GLOB_ONLYDIR | GLOB_NOSORT) as $folder) {
+				$directories[] = $folder;
+				glob_recursive("{$folder}/*", $directories);
+			}
+		}
+		glob_recursive($directory, $directories);
+		$files = array ();
+		foreach($directories as $directory) {
+			foreach($extensions as $extension) {
+				foreach(glob("{$directory}/*.{$extension}") as $file) {
+					$files[$extension][] = $file;
+				}
+			}
+		}
+		return $files[$extension];
 	}
     function save() {
 		$settings = $_POST['settings'];
@@ -247,9 +210,9 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 	
 	function css_file(){
 		$offset = 60 * 60 * 24 * 31;		
-		header("Content-type: text/css; charset: UTF-8");  
-		header ('Cache-Control: max-age=' . $offset . ', must-revalidate');
-		header ('Expires: ' . gmdate ("D, d M Y H:i:s", time() + $offset) . ' GMT');
+		header('Content-type: text/css; charset: UTF-8');  
+		header('Cache-Control: max-age=' . $offset . ', must-revalidate');
+		header('Expires: ' . gmdate ("D, d M Y H:i:s", time() + $offset) . ' GMT');
 		echo self::css_min();
 	}
 
@@ -305,9 +268,10 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 	/** JS */
 	
 	function js_file(){
-		header('Cache-Control: max-age='.(3600 * 24).', must-revalidate');
-		header('Content-type: text/javascript');
-		header('Expires: '.gmdate("D, d M Y H:i:s", time() + 3600*24*365).' GMT');
+		$offset = 60 * 60 * 24 * 31;		
+		header('Content-type: text/css; charset: UTF-8');  
+		header('Cache-Control: max-age=' . $offset . ', must-revalidate');
+		header('Expires: ' . gmdate ("D, d M Y H:i:s", time() + $offset) . ' GMT');
 		echo self::js_min();
 	}
 	
