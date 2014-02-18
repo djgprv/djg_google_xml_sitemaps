@@ -28,10 +28,10 @@ HOW TO
 
 ##### Insert below code to page content or layout.
 ```sh
-&lt;?php if (Plugin::isEnabled('djg_google_xml_sitemaps')) djg_sitemap(); ?&gt;
+<?php if (Plugin::isEnabled('djg_google_xml_sitemaps')) djg_sitemap(); ?>;
 ```
 ```sh
-&lt;?php if (Plugin::isEnabled('djg_google_xml_sitemaps')) djg_mobile_menu($this); ?&gt;
+<?php if (Plugin::isEnabled('djg_google_xml_sitemaps')) djg_mobile_menu($this); ?>;
 ```
 ##### example css for djg_mobile_menu
 ```sh
