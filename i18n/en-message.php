@@ -73,6 +73,7 @@ return array(
 'Clear cache (:date)' => 'Clear cache (:date)',
 'Documentation' => 'Documentation',
 /** ver 1.1.4 */
+'JS files' => 'JS files',
 'Virtual js path' => 'Virtual js path',
 'JS' => 'JS',
 'List js files from public/themes directory' => 'List js files from public/themes directory',

@@ -207,16 +207,8 @@ class DjgGoogleXmlSitemapsController extends PluginController {
     }
 	
 	/** CSS */
-	
-	function css_file(){
-		$offset = 60 * 60 * 24 * 31;		
-		header('Content-type: text/css; charset: UTF-8');  
-		header('Cache-Control: max-age=' . $offset . ', must-revalidate');
-		header('Expires: ' . gmdate ("D, d M Y H:i:s", time() + $offset) . ' GMT');
-		echo self::css_min();
-	}
 
-	public static function css_min(){
+	public static function css_file(){
 		$PDO = Record::getConnection();
 		$sql = "SELECT filename FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_css_files ORDER BY sort_order ASC, id DESC";
 		$stmt = $PDO->prepare($sql);
@@ -227,14 +219,15 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		foreach ($db as &$value):
 			$file = CMS_ROOT.$value['filename'];
 			if (file_exists($file)) {
-				$md5 .= date (filemtime($file));
+				$md5 .= md5_file($file);
 				$css .= file_get_contents(CMS_ROOT.$value['filename'],true);
 			}
 		endforeach;
 		$name = md5($md5).'.css';
-		if(file_exists(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name))readfile(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name);
-		else{
-			
+		if(file_exists(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name)){
+			$css_content = file_get_contents(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name);
+			$time = date(filemtime(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name));
+		}else{
 			$css = preg_replace('#/\*.*?\*/#s', '', $css);
 			$css = preg_replace('/\s*([{}|:;,])\s+/', '$1', $css);
 			$css = preg_replace('/\s\s+(.*)/', '$1',$css);
@@ -243,8 +236,13 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 			$css_content = $css;			
 			foreach(glob(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.'*.css') as $file) unlink($file);
 			file_put_contents(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name,$css_content);
-			return $css_content;
+			$time = date(filemtime(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name));
 		}
+		$offset = 60 * 60 * 24 * 31;
+		header('Content-type: text/css; charset: UTF-8');  
+		header('Cache-Control: max-age=' . $offset . ', must-revalidate');
+		header('Expires: ' . gmdate ("D, d M Y H:i:s", $time + $offset) . ' GMT');
+		echo $css_content;
 	}
 
 	function ajax_sort_css_files()
@@ -267,16 +265,8 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 	
 	/** JS */
 	
-	function js_file(){
-		$offset = 60 * 60 * 24 * 31;		
-		header('Content-type: text/css; charset: UTF-8');  
-		header('Cache-Control: max-age=' . $offset . ', must-revalidate');
-		header('Expires: ' . gmdate ("D, d M Y H:i:s", time() + $offset) . ' GMT');
-		echo self::js_min();
-	}
-	
-	function js_min()
-	{	
+	function js_file()
+	{
 		$PDO = Record::getConnection();
 		$sql = "SELECT filename FROM ".TABLE_PREFIX."djg_google_xml_sitemaps_js_files ORDER BY sort_order ASC, id DESC";
 		$stmt = $PDO->prepare($sql);
@@ -287,20 +277,27 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 		foreach ($db as &$value):
 			$file = CMS_ROOT.$value['filename'];
 			if (file_exists($file)) {
-				$md5 .= date (filemtime($file));
+				$md5 .= md5_file($file);
 				$js .= file_get_contents(CMS_ROOT.$value['filename'],true);
 			}
 		endforeach;
 		$name = md5($md5).'.js';
-		if(file_exists(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name))readfile(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name);
-		else{
+		if(file_exists(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name)){
+			$js_content = file_get_contents(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name);
+			$time = date(filemtime(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name));
+		}else{
 			$js_content = JSMin::minify($js);
 			foreach(glob(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.'*.js') as $file) unlink($file);
 			file_put_contents(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name,$js_content);
-			return $js_content;
+			$time = date(filemtime(PLUGINS_ROOT.DS.'djg_google_xml_sitemaps'.DS.'cache'.DS.$name));
 		}
+		$offset = 60 * 60 * 24 * 31;
+		header('Content-type: text/javascript; charset: UTF-8');  
+		header('Cache-Control: max-age=' . $offset . ', must-revalidate');
+		header('Expires: ' . gmdate ("D, d M Y H:i:s", $time + $offset) . ' GMT');
+		echo $js_content;			
 	}
-
+	
 	function ajax_sort_js_files()
 	{
 		$action 				= $_POST['action'];
