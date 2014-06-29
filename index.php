@@ -155,7 +155,7 @@ function djg_changefreq_select(&$page)
 		echo '<option value="never"'.($page->changefreq == 'never' ? ' selected="selected"': '').'>'.__('never').'</option>';
 	else:
 		$changefreq = Plugin::getSetting('changefreq','djg_google_xml_sitemaps');
-		echo '<option value="' . $changefreq . '" selected="selected">' . $changefreq . '</option>';
+		echo '<option value="' . $changefreq . '" selected="selected">' . __($changefreq) . '</option>';
 	endif;
 	echo '</select></p>';
 };
