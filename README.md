@@ -22,6 +22,7 @@ HISTORY VERSION
 * 1.1.1 - removed some bugs (glob search css files, priority and changefreq for homepage, auto_clean)
 * 1.1.2 - changed djg_mobile_menu
 * 1.1.3 - caching, auto cleaning css and js files, update en-message.php, update pl-message.php, change display README.md content
+* 1.1.4 - bug fix - auto value after create new page
 
 HOW TO
 ----

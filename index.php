@@ -25,7 +25,7 @@ Plugin::setInfos(array(
     'id'          => 'djg_google_xml_sitemaps',
     'title'       => __('[djg] XML sitemaps'),
     'description' => __('Simple plugin to generate xml sitemap SEO compatible.'),
-    'version'     => '1.1.3',
+    'version'     => '1.1.4',
    	'license'     => 'GPL',
 	'author'      => 'Michał Uchnast',
     'website'     => 'http://www.kreacjawww.pl/',
@@ -101,7 +101,7 @@ function djg_sitemap_tree($parent)
 			}
 		}
 	return $out;
-}
+};
 function djg_sitemap_menu($parent,$current_path)
 {	
     $out = '';
@@ -121,7 +121,7 @@ function djg_sitemap_menu($parent,$current_path)
 			}
 		}
 	return $out;
-}
+};
 function djg_sitemap() {
 	echo '<div class="djg_sitemap">';
 	$parent = Page::find('/');
@@ -140,12 +140,12 @@ function djg_mobile_menu($page) {
 	echo djg_sitemap_menu($parent,$page->path());
 	echo '</select></label></div>';
 };
-
 function djg_changefreq_select(&$page)
 {
-		echo '<p><label for="djg_changefreq_select">';
-		echo __('Changefreq') . ': ';
-		echo '</label><select id="djg_changefreq_select" name="page[changefreq]">';
+	echo '<p><label for="djg_changefreq_select">';
+	echo __('Changefreq') . ': ';
+	echo '</label><select id="djg_changefreq_select" name="page[changefreq]">';
+	if(isset($page->changefreq)):
 		echo '<option value="always"'.($page->changefreq == 'always' ? ' selected="selected"': '').'>'.__('always').'</option>';
 		echo '<option value="hourly"'.($page->changefreq == 'hourly' ? ' selected="selected"': '').'>'.__('hourly').'</option>';
 		echo '<option value="daily"'.($page->changefreq == 'daily' ? ' selected="selected"': '').'>'.__('daily').'</option>';
@@ -153,29 +153,33 @@ function djg_changefreq_select(&$page)
 		echo '<option value="monthly"'.($page->changefreq == 'monthly' ? ' selected="selected"': '').'>'.__('monthly').'</option>';
 		echo '<option value="yearly"'.($page->changefreq == 'yearly' ? ' selected="selected"': '').'>'.__('yearly').'</option>';
 		echo '<option value="never"'.($page->changefreq == 'never' ? ' selected="selected"': '').'>'.__('never').'</option>';
-		echo '</select></p>';
-}
+	else:
+		$changefreq = Plugin::getSetting('changefreq','djg_google_xml_sitemaps');
+		echo '<option value="' . $changefreq . '" selected="selected">' . $changefreq . '</option>';
+	endif;
+	echo '</select></p>';
+};
 function djg_priority_select(&$page)
 {
-    echo '<p><label for="djg_priority_select">';
+	echo '<p><label for="djg_priority_select">';
 	echo __('Priority') . ': ';
 	echo '</label><select id="djg_priority_select" name="page[priority]">';
-	for ($x=0.0; $x<=1.0; $x+=0.1)
-	  {
-	  echo '<option value="'.sprintf('%0.1f',$x).'"'.($page->priority == sprintf('%0.1f',$x) ? ' selected="selected"': '').'>'.sprintf('%0.1f',$x).'</option>';
-	  }	
-    echo '</select></p>';
-
-}
+	if(isset($page->priority)):
+		for ($x=0.0; $x<=1.0; $x+=0.1) echo '<option value="'.sprintf('%0.1f',$x).'"'.($page->priority == sprintf('%0.1f',$x) ? ' selected="selected"': '').'>'.sprintf('%0.1f',$x).'</option>';
+	else:
+		$priority = Plugin::getSetting('priority','djg_google_xml_sitemaps');
+		echo '<option value="' . $priority . '" selected="selected">' . $priority . '</option>';
+	endif;
+	echo '</select></p>';
+};
 function auto_clear_cache()
 {
 	if( (Plugin::getSetting('auto_clear_cache','djg_google_xml_sitemaps')) ) unlink(CMS_ROOT.DS.'sitemap.xml');
-}
-
+};
 /** css & js */
 function  djg_google_xml_sitemaps_css(){
 	return '<link rel="stylesheet" href="'.URL_PUBLIC.Plugin::getSetting('css_path','djg_google_xml_sitemaps').'" media="screen" type="text/css" />';
-}
+};
 function  djg_google_xml_sitemaps_js(){
 	return '<script type="text/javascript" charset="UTF-8" src="'.URL_PUBLIC.Plugin::getSetting('js_path','djg_google_xml_sitemaps').'"></script>';
-}
+};
