@@ -1,6 +1,6 @@
 <?php
 /**
-* Polish file for plugin djg_google_xml_sitemaps
+* English file for plugin djg_google_xml_sitemaps
 *
 * @package wolf
 * @subpackage djg_google_xml_sitemaps
@@ -11,15 +11,15 @@
 return array(
 /** DjgGoogleXmlSitemapsController.php */ 
 'Cache was cleared.' => 'Pamięć podręczna została wyczyszczona.',
-'Successfully added file(s)' => 'Pomyślnie dodano plik(i)',
-'Successfully removed file(s)' => 'Pomyślnie usunięto plik(i)',
+'Successfully added file(s)' => 'Został dodany plik (s)',
+'Successfully removed file(s)' => 'Skutecznie usuwa plik (i)',
 'The settings have been updated.' => 'Ustawienia zostały zaktualizowane.',
 /** enable.php */ 
-'djg_google_xml_sitemaps - plugin settings initialized.' => 'djg_google_xml_sitemaps - ustawienia wtyczki zainicjowane.',
+'djg_google_xml_sitemaps - plugin settings initialized.' => 'djg_google_xml_sitemaps - ustawienia wtyczki zainicjowany.',
 'djg_google_xml_sitemaps - unable to store plugin settings!' => 'djg_google_xml_sitemaps - Nie można zapisać ustawień wtyczki!',
 /** index.php */ 
-'[djg] XML sitemaps' => '[djg] XML sitemaps',
-'Simple plugin to generate xml sitemap SEO compatible.' => 'Prosty plugin do generowania pliku sitemap kompatybilny z SEO.',
+'[djg] XML sitemaps' => '[XML Sitemaps djg]',
+'Simple plugin to generate xml sitemap SEO compatible.' => 'Prosty plugin do generowania XML Sitemap SEO kompatybilny.',
 'Changefreq' => 'Changefreq',
 'always' => 'zawsze',
 'hourly' => 'po godzinach',
@@ -28,54 +28,54 @@ return array(
 'monthly' => 'miesięcznie',
 'yearly' => 'rocznie',
 'never' => 'nigdy',
-'Priority' => 'Priority',
+'Priority' => 'Priorytet',
 /** views\css_files.php */ 
 'CSS files' => 'Pliki CSS',
-'List css files from public/themes directory' => 'Lista plików css w katalogu public/themes',
+'List css files from public/themes directory' => 'Lista plików z katalogu css publicznych / themes',
 'All available files are in use' => 'Wszystkie dostępne pliki są w użyciu',
-'add selected' => 'dodaj zaznaczone',
+'add selected' => 'dodać wybrany',
 'Files in use' => 'Pliki w użyciu',
 'No files' => 'Brak plików',
-'remove selected' => 'usuń wybrane',
-'Copy and paste bellow code to your theme' => 'Skopiuj i wklej poniższy kod do szablonu',
-'Show css content' => 'Pokaż zawartość css',
-'You have modified this page.  If you navigate away from this page without first saving your data, the changes will be lost.' => 'Wprowadziłeś zmiany. Jeśli przejdziesz do innej strony bez zapisywania zmiany zostaną utracone.',
-'Updated file list' => 'Zaktualizowano listę plików',
+'remove selected' => 'usunąć wybrany',
+'Copy and paste bellow code to your theme' => 'Skopiować i wkleić kod, miech do tematu',
+'Show css content' => 'Treść Pokaż css',
+'You have modified this page.  If you navigate away from this page without first saving your data, the changes will be lost.' => 'Zmodyfikowaniu tej strony.  Jeżeli nawigacja z dala od tej strony bez wcześniejszego zapisywania danych, zmiany zostaną utracone.',
+'Updated file list' => 'Aktualizowana lista plików',
 /** views\documentation.php */ 
 'Documentation' => 'Dokumentacja',
 /** views\settings.php */ 
 'Settings' => 'Ustawienia',
-'Header' => 'Nagłówek',
+'Header' => 'Chodnikowiec',
 'XML' => 'XML',
 'TXT' => 'TXT',
 'Choose header.' => 'Wybierz nagłówek.',
-'HOMEPAGE' => 'STRONA GŁÓWNA',
+'HOMEPAGE' => 'GŁÓWNĄ',
 'Yes' => 'Tak',
 'No' => 'Nie',
-'Add HOMEPAGE to xml tree.' => 'Dodaj GŁÓWNĄ STRONĘ do drzewa XML.',
+'Add HOMEPAGE to xml tree.' => 'Dodaj strony kieruj do drzewa XML.',
 'STATUS HIDDEN' => 'STATUS UKRYTE',
 'Add HIDDEN PAGES to xml tree.' => 'Dodaj ukryte strony do drzewa XML.',
-'LOGIN REQUIRED' => 'WYMAGA ZALOGOWANIA',
-'Add LOGIN REQUIRED PAGES to xml tree.' => 'Dodaj strony wymagające logowania do drzewa XML.',
-'Default changefreq for pages.' => 'Domyślny [changefreq] dla stron.',
-'Default priority for pages.' => 'Domyślny [priorytet] dla stron.',
+'LOGIN REQUIRED' => 'Zalogowanych',
+'Add LOGIN REQUIRED PAGES to xml tree.' => 'Dodaj zalogowanych strony do drzewa XML.',
+'Default changefreq for pages.' => 'Domyślnie changefreq dla stron.',
+'Default priority for pages.' => 'Domyślnym priorytetem dla stron.',
 'Cache' => 'Cache',
-'Set Yes if you want to caching sitemap file.' => 'Ustaw Tak, jeśli chcesz buforować plik sitemap.',
-'Auto clean cache after page update' => 'Auto czyszczenie cache po aktualizacji strony',
+'Set Yes if you want to caching sitemap file.' => 'Ustaw Tak, jeśli chcesz buforowanie sitemap plik.',
+'Auto clean cache after page update' => 'Auto czyste cache po aktualizacji strony',
 'Robots.txt' => 'Robots.txt',
 'Contents of the robots.txt file.' => 'Zawartość pliku robots.txt.',
 'Virtual css path' => 'Wirtualna ścieżka css',
-'Save' => 'Zapisz',
+'Save' => 'Oszczędzać',
 'Show sitemap.xml file' => 'Pokaż plik sitemap.xml',
 'Show robots.txt file' => 'Pokaż plik robots.txt',
 /** views\sidebar.php */ 
 'CSS' => 'CSS',
-'Clear cache (:date)' => 'Wyczyść cache (:date)',
+'Clear cache (:date)' => 'Wyczyść cache (Data)',
 'Documentation' => 'Dokumentacja',
 /** ver 1.1.4 */
-'JS files' => 'Pliki JS',
+'JS files' => 'Pliki js',
 'Virtual js path' => 'Wirtualna ścieżka js',
 'JS' => 'JS',
-'List js files from public/themes directory' => 'Lista plików js w katalogu public/themes',
-'Show js content' => 'Pokaż zawartość js'
+'List js files from public/themes directory' => 'Lista js pliki z katalogu publicznego / themes',
+'Show js content' => 'Show js content'
 );
