@@ -80,19 +80,19 @@
 				<td><?php echo __('Add LOGIN REQUIRED PAGES to xml tree.'); ?></td>
 			</tr>
 			<tr>
-                <td class="label"><label for="changefreq"><?php echo __('Changefreq'); ?>: </label></td>
+                <td class="label"><label for="djg_gxs_changefreq"><?php echo __('Changefreq'); ?>: </label></td>
                 <td class="field">
-					<select id="changefreq" name="settings[changefreq]">
-					<option value="always" <?php if($settings['changefreq'] == 'always'): echo 'selected="selected"'; endif; ?>><?php echo __('always') ; ?></option>
-					<option value="hourly" <?php if($settings['changefreq'] == 'hourly'): echo 'selected="selected"'; endif; ?>><?php echo __('hourly') ; ?></option>
-					<option value="daily" <?php if($settings['changefreq'] == 'daily'): echo 'selected="selected"'; endif; ?>><?php echo __('daily') ; ?></option>
-					<option value="weekly" <?php if($settings['changefreq'] == 'weekly'): echo 'selected="selected"'; endif; ?>><?php echo __('weekly') ; ?></option>
-					<option value="monthly" <?php if($settings['changefreq'] == 'monthly'): echo 'selected="selected"'; endif; ?>><?php echo __('monthly') ; ?></option>
-					<option value="yearly" <?php if($settings['changefreq'] == 'yearly'): echo 'selected="selected"'; endif; ?>><?php echo __('yearly') ; ?></option>
-					<option value="never" <?php if($settings['changefreq'] == 'never'): echo 'selected="selected"'; endif; ?>><?php echo __('never') ; ?></option>
+					<select id="djg_gxs_changefreq" name="settings[djg_gxs_changefreq]">
+					<option value="always" <?php if($settings['djg_gxs_changefreq'] == 'always'): echo 'selected="selected"'; endif; ?>><?php echo __('always') ; ?></option>
+					<option value="hourly" <?php if($settings['djg_gxs_changefreq'] == 'hourly'): echo 'selected="selected"'; endif; ?>><?php echo __('hourly') ; ?></option>
+					<option value="daily" <?php if($settings['djg_gxs_changefreq'] == 'daily'): echo 'selected="selected"'; endif; ?>><?php echo __('daily') ; ?></option>
+					<option value="weekly" <?php if($settings['djg_gxs_changefreq'] == 'weekly'): echo 'selected="selected"'; endif; ?>><?php echo __('weekly') ; ?></option>
+					<option value="monthly" <?php if($settings['djg_gxs_changefreq'] == 'monthly'): echo 'selected="selected"'; endif; ?>><?php echo __('monthly') ; ?></option>
+					<option value="yearly" <?php if($settings['djg_gxs_changefreq'] == 'yearly'): echo 'selected="selected"'; endif; ?>><?php echo __('yearly') ; ?></option>
+					<option value="never" <?php if($settings['djg_gxs_changefreq'] == 'never'): echo 'selected="selected"'; endif; ?>><?php echo __('never') ; ?></option>
 					</select>
 				</td>
-				<td><?php echo __('Default changefreq for pages.'); ?></td>
+				<td><?php echo __('Default djg_gxs_changefreq for pages.'); ?></td>
 			</tr>
 			<tr>
                 <td class="label"><label for="priority"><?php echo __('Priority'); ?>: </label></td>

@@ -39,10 +39,14 @@ return array(
 'remove selected' => 'remove selected', 
 'Copy and paste bellow code to your theme' => 'Copy and paste bellow code to your theme', 
 'Show css content' => 'Show css content', 
-'You have modified this page.  If you navigate away from this page without first saving your data, the changes will be lost.' => 'You have modified this page.  If you navigate away from this page without first saving your data, the changes will be lost.', 
+'You have modified this page.  If you navigate away from this page without first saving your data' => 'You have modified this page.  If you navigate away from this page without first saving your data', 
 'Updated file list' => 'Updated file list', 
 /** views\documentation.php */ 
 'Documentation' => 'Documentation', 
+/** views\js_files.php */ 
+'JS files' => 'JS files', 
+'List js files from public/themes directory' => 'List js files from public/themes directory', 
+'Show js content' => 'Show js content', 
 /** views\settings.php */ 
 'Settings' => 'Settings', 
 'Header' => 'Header', 
@@ -57,7 +61,7 @@ return array(
 'Add HIDDEN PAGES to xml tree.' => 'Add HIDDEN PAGES to xml tree.', 
 'LOGIN REQUIRED' => 'LOGIN REQUIRED', 
 'Add LOGIN REQUIRED PAGES to xml tree.' => 'Add LOGIN REQUIRED PAGES to xml tree.', 
-'Default changefreq for pages.' => 'Default changefreq for pages.', 
+'Default djg_gxs_changefreq for pages.' => 'Default djg_gxs_changefreq for pages.', 
 'Default priority for pages.' => 'Default priority for pages.', 
 'Cache' => 'Cache', 
 'Set Yes if you want to caching sitemap file.' => 'Set Yes if you want to caching sitemap file.', 
@@ -65,17 +69,12 @@ return array(
 'Robots.txt' => 'Robots.txt', 
 'Contents of the robots.txt file.' => 'Contents of the robots.txt file.', 
 'Virtual css path' => 'Virtual css path', 
+'Virtual js path' => 'Virtual js path', 
 'Save' => 'Save', 
 'Show sitemap.xml file' => 'Show sitemap.xml file', 
 'Show robots.txt file' => 'Show robots.txt file', 
 /** views\sidebar.php */ 
-'CSS' => 'CSS',
-'Clear cache (:date)' => 'Clear cache (:date)',
-'Documentation' => 'Documentation',
-/** ver 1.1.4 */
-'JS files' => 'JS files',
-'Virtual js path' => 'Virtual js path',
-'JS' => 'JS',
-'List js files from public/themes directory' => 'List js files from public/themes directory',
-'Show js content' => 'Show js content'
+'Clear cache (:date)' => 'Clear cache (:date)', 
+'CSS' => 'CSS', 
+'JS' => 'JS', 
 );

@@ -153,8 +153,8 @@ class DjgGoogleXmlSitemapsController extends PluginController {
 				$out .= "<url>\n";
 				$out .= "<loc>".$child->url()."</loc>\n";
 				$out .= "<lastmod>".$child->date('%Y-%m-%d', 'updated')."</lastmod>\n";
-				$out .= "<changefreq>".($child->changefreq ? $child->changefreq: $settings['changefreq'])."</changefreq>\n";
-				$out .= "<priority>".($child->priority ? $child->priority: $settings['priority'])."</priority>\n";
+				$out .= "<changefreq>".($child->djg_gxs_changefreq ? $child->djg_gxs_changefreq: $settings['djg_gxs_changefreq'])."</changefreq>\n";
+				$out .= "<priority>".($child->djg_gxs_priority ? $child->djg_gxs_priority: $settings['djg_gxs_priority'])."</priority>\n";
 				$out .= "</url>\n";
 			endif;
 			$out .= self::snippet_xml_sitemap($child);
