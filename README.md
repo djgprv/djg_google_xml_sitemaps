@@ -6,7 +6,7 @@ Djg Google Xml Sitemaps Documentation
 
 HISTORY VERSION
 ----
-* 1.0.0    - beta
+* 1.0.0 - beta
 * 1.0.1	- Added HOME PAGE to xml tree
 * 1.0.2	- Added setting page, now You can choose page to display in xml tree. There are three options, show hide HOME PAGE and by status: STATUS_HIDDEN, LOGIN_REQUIRED. Thx Fortron for suggest
 * 1.0.3	- Added xml header (thx for andrewmman) and ability to set default Changefreq and Priority for pages
@@ -23,6 +23,7 @@ HISTORY VERSION
 * 1.1.2 - changed djg_mobile_menu
 * 1.1.3 - caching, auto cleaning css and js files, update en-message.php, update pl-message.php, change display README.md content
 * 1.1.4 - bug fix - auto value after create new page
+* 1.1.5a - bug fix, code cleanup
 
 HOW TO
 ----

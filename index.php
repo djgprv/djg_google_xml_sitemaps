@@ -25,7 +25,7 @@ Plugin::setInfos(array(
     'id'          => 'djg_google_xml_sitemaps',
     'title'       => __('[djg] XML sitemaps'),
     'description' => __('Simple plugin to generate xml sitemap SEO compatible.'),
-    'version'     => '1.1.5',
+    'version'     => '1.1.5a',
    	'license'     => 'GPL',
 	'author'      => 'Michał Uchnast',
     'website'     => 'http://www.kreacjawww.pl/',
@@ -55,10 +55,8 @@ Observer::observe('page_add_after_save', 'auto_clear_cache');
 Observer::observe('page_delete', 'auto_clear_cache');
 Observer::observe('page_add_after_save',  'djg_gxs_on_page_saved');
 Observer::observe('page_edit_after_save', 'djg_gxs_on_page_saved');
+
 /*Observer::observe('page_edit_before_save', 'auto_changefreq');
-
-
-
 function auto_changefreq($page) {
 	if(Plugin::getSetting('auto_changefreq','djg_google_xml_sitemaps')=='1'){
 		$period = strtotime(date( 'Y-m-d H:i:s'))-strtotime($page->updated_on);
@@ -123,6 +121,7 @@ function djg_sitemap_menu($parent,$current_path)
 		}
 	return $out;
 };
+
 function djg_sitemap() {
 	echo '<div class="djg_sitemap">';
 	$parent = Page::find('/');
@@ -199,6 +198,7 @@ function auto_clear_cache()
 };
 
 /** css & js */
+
 function  djg_google_xml_sitemaps_css(){
 	return '<link rel="stylesheet" href="'.URL_PUBLIC.Plugin::getSetting('css_path','djg_google_xml_sitemaps').'" media="screen" type="text/css" />';
 };

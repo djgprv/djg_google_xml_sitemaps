@@ -95,14 +95,14 @@
 				<td><?php echo __('Default djg_gxs_changefreq for pages.'); ?></td>
 			</tr>
 			<tr>
-                <td class="label"><label for="priority"><?php echo __('Priority'); ?>: </label></td>
+                <td class="label"><label for="djg_gxs_priority"><?php echo __('Priority'); ?>: </label></td>
                 <td class="field">
-					<select id="priority" name="settings[priority]">
-						<option value="0.0" <?php if($settings['priority'] == "0.0") echo 'selected="selected"'; ?>>0.0</option>
+					<select id="djg_gxs_priority" name="settings[djg_gxs_priority]">
+						<option value="0.0" <?php if($settings['djg_gxs_priority'] == "0.0") echo 'selected="selected"'; ?>>0.0</option>
 						<?php for($i= 0.1; $i < 0.9; $i += 0.1): ?>
-						<option value="<?php echo  $i; ?>" <?php if($settings['priority'] == $i): echo 'selected="selected"'; endif; ?>><?php echo $i; ?></option>
+						<option value="<?php echo  $i; ?>" <?php if($settings['djg_gxs_priority'] == $i): echo 'selected="selected"'; endif; ?>><?php echo $i; ?></option>
 						<?php endfor;?>
-						<option value="1.0" <?php if($settings['priority'] == "1.0") echo 'selected =" "' ?>>1.0</option>
+						<option value="1.0" <?php if($settings['djg_gxs_priority'] == "1.0") echo 'selected =" "' ?>>1.0</option>
 					</select>	
 				</td>
 				<td><?php echo __('Default priority for pages.'); ?></td>

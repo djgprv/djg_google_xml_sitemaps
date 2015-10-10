@@ -40,7 +40,7 @@
 		if(empty($files)) echo '<p class="red">'.__('All available files are in use').'<p>';
 		echo '<ul id="available_css_files">';
 		foreach($files as $file):
-			echo '<li><input type="checkbox" name="available_js_files[]" value="'. str_replace(CMS_ROOT, "", $file).'">'. str_replace(CMS_ROOT, "", $file).'</li>';
+			echo '<li><input type="checkbox" name="available_js_files[]" value="'. str_replace(CMS_ROOT, "", $file).'"> '. str_replace(CMS_ROOT, "", $file).'</li>';
 		endforeach;
 		echo '</ul>';
 		?>
@@ -50,15 +50,16 @@
 		if(empty($db)) echo '<p class="red">'.__('No files').'<p>';
 		echo '<ul id="db_js_files">';
 		foreach($db as $file):
-			echo '<li style="cursor: move;" id="filesArray_'.$file["id"].'"><input type="checkbox" name="db_js_files[]" value="'. $file['id'].'">'. $file['filename'].'</li>';
+			echo '<li style="cursor: move;" id="filesArray_'.$file["id"].'"><input type="checkbox" name="db_js_files[]" value="'. $file['id'].'"> '. $file['filename'].'</li>';
 		endforeach;
 		echo '</ul>';
 		?>
         <input class="button remove_button" name="remove_button" type="submit" accesskey="s" value="<?php echo __('remove selected'); ?>" />
     </fieldset>
 	<p><?php echo __('Copy and paste bellow code to your theme') ?></p>
-	<p>&lt;script type="text/javascript" charset="UTF-8" src="&lt;?php echo URL_PUBLIC; ?&gt;<?php echo Plugin::getSetting('js_path','djg_google_xml_sitemaps'); ?>" &gt;&lt;/script&gt;</p>
-	<p>&lt;?php if (Plugin::isEnabled('djg_google_xml_sitemaps')) echo djg_google_xml_sitemaps_js(); ?&gt;</p>
+	<p>&lt;script type="text/javascript" charset="UTF-8" src="&lt;?php echo URL_PUBLIC; ?&gt;<?php echo Plugin::getSetting('js_path','djg_google_xml_sitemaps'); ?>" &gt;&lt;/script&gt;<br />
+	<?php echo __('or') ?><br />
+	&lt;?php if (Plugin::isEnabled('djg_google_xml_sitemaps')) echo djg_google_xml_sitemaps_js(); ?&gt;</p>
 	<a href="<?php echo URL_PUBLIC.plugin::getSetting('js_path','djg_google_xml_sitemaps'); ?>" target="_blank"><?php echo __('Show js content'); ?></a>
 </form>
 </div>
